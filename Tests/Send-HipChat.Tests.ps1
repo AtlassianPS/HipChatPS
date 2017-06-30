@@ -33,9 +33,9 @@ Describe 'Send-HipChat' {
 }
 
 
-Describe "send-hipchat timeouts" {
+Describe "Send-HipChat timeouts" {
     
-    Mock Invoke-WebRequest {Throw}
+    Mock Invoke-WebRequest { Throw }
 
     It "should retry 3 additional times" {
 
@@ -49,7 +49,7 @@ Describe "send-hipchat timeouts" {
         }
 
         send-hipchat @params | Should be $false
-        Assert-MockCalled Invoke-WebRequest -Exactly 4 -ModuleName $moduleName -Scope It
+        Assert-MockCalled Invoke-WebRequest -Exactly 4 -Scope It
         
     }
 
