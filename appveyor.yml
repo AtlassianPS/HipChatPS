@@ -1,0 +1,46 @@
+############################################################
+#
+# See http://www.appveyor.com/docs/appveyor-yml for many more options
+#
+# Credit for a lot of this file goes to RamblingCookieMonster:
+# https://github.com/RamblingCookieMonster/PSSQLite/blob/master/appveyor.yml
+#
+############################################################
+
+# This tells AppVeyor that we need WMF 5 and PowerShell 5.0
+os: WMF 5
+
+environment:
+    ModuleName: $(APPVEYOR_PROJECT_NAME)
+    Tags: 'HipChat'
+    LicenseUri: 'https://github.com/AtlassianPS/HipChatPS/blob/master/LICENSE'
+    ProjectUri: 'https://github.com/AtlassianPS/HipChatPS/'
+
+    # To encrypt a value in AppVeyor, go to the Account menu and choose "Encrypt data"
+    #PSGalleryAPIKey:
+    #    secure: TBC
+
+version: 0.1.0.{build}
+
+# Only build commits to these branches
+branches:
+    only:
+        - master
+        - develop
+
+# Don't rebuild when I tag a release on GitHub
+skip_tags: true
+
+skip_commits:
+    message: /readme*/
+    files:
+        - .github/
+        - .vscode/
+        - assets/
+        - docs/
+        - Tools/
+
+test_script:
+    - ps: . .\build.ps1
+
+build: false
