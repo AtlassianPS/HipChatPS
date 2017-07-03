@@ -32,7 +32,6 @@ Describe 'Send-HipChat' {
     }
 }
 
-
 Describe "Send-HipChat timeouts" {
 
     Mock Invoke-WebRequest { Throw }
@@ -49,8 +48,7 @@ Describe "Send-HipChat timeouts" {
         }
 
         send-hipchat @params | Should be $false
+        
         Assert-MockCalled Invoke-WebRequest -Exactly 4 -Scope It
-
     }
-
 }
