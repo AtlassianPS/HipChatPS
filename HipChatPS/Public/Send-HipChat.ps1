@@ -1,15 +1,20 @@
 ﻿function Send-HipChat {
 <#
 .SYNOPSIS
-    Sends messages to a Hipchat room.
+    Sends messages to a Hipchat room or user.
 .DESCRIPTION
-    Send-HipChat can be used within a script or at the console to send a message to a HipChat room.
+    Send-HipChat can be used within a script or at the console to send a message to a HipChat room or a private message to a user.
 .EXAMPLE
     Send-Hipchat -Message 'Hello' -Color 'Green' -Notify -ApiToken myapitoken -Room MyRoom -Retry 5 -RetrySec 10
 
     This sends a message of 'Hello' highlighted green in to a room named MyRoom. Users in the room will be notified
     in their clients that a new message has been recevied. If it cannot successfully send the message it will retry
     5 times, at 10 second intervals.
+.EXAMPLE
+    Send-Hipchat -Message 'Hello' -Server "myserver.hipchat.com" -ApiToken myapitoken -User email@example.com -Retry 5 -RetrySec 10
+
+    This sends a private message of 'Hello' to a user with an email address of email@example.com.
+
 #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -25,13 +30,21 @@
         #Set whether or not this message should trigger a notification for people in the room. (default: false)
         [switch]$notify,
 
+        #Required. Server name, default to 'api.hipchat.com'
+        [Parameter(Mandatory = $True)]
+        [string]$server = 'api.hipchat.com',
+
         #Required. This must be a HipChat API token created by a Room Admin for the room you are sending notifications to.
         [Parameter(Mandatory = $True)]
         [string]$apitoken,
 
-        #Required. The id or URL encoded name of the HipChat room you want to send the message to.
-        [Parameter(Mandatory = $True)]
+        #The id or URL encoded name of the HipChat room you want to send the message to.
+        [Parameter(Mandatory = $True, ParameterSetName = 'Room')]
         [string]$room,
+
+        #The id or URL encoded name of the HipChat room you want to send the message to.
+        [Parameter(Mandatory = $True, ParameterSetName = 'User')]
+        [string]$user,
 
         #The number of times to retry sending the message (default: 0)
         [int]$retry = 0,
@@ -46,7 +59,12 @@
         "notify" = [string]$notify
     }
 
-    $uri = "https://api.hipchat.com/v2/room/$room/notification?auth_token=$apitoken"
+    switch ($PSCmdlet.ParameterSetName)
+    {
+        "Room"{$uri = "https://api.hipchat.com/v2/room/$room/notification?auth_token=$apitoken"}
+        "User"{$uri = "https://api.hipchat.com/v2/user/$user/message?auth_token=$apitoken"}
+    }
+
     $Body = ConvertTo-Json $messageObj
     $Post = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
