@@ -61,8 +61,8 @@
 
     switch ($PSCmdlet.ParameterSetName)
     {
-        "Room"{$uri = "https://api.hipchat.com/v2/room/$room/notification?auth_token=$apitoken"}
-        "User"{$uri = "https://api.hipchat.com/v2/user/$user/message?auth_token=$apitoken"}
+        "Room"{$uri = "https://$server/v2/room/$room/notification?auth_token=$apitoken"}
+        "User"{$uri = "https://$server/v2/user/$user/message?auth_token=$apitoken"}
     }
 
     $Body = ConvertTo-Json $messageObj
