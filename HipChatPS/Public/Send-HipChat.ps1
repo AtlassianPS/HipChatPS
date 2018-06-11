@@ -25,6 +25,9 @@
         #Set whether or not this message should trigger a notification for people in the room. (default: false)
         [switch]$notify,
 
+        #HipChat API endpoint (default: https://api.hipchat.com)
+        [string]$uri = 'https://api.hipchat.com',
+
         #Required. This must be a HipChat API token created by a Room Admin for the room you are sending notifications to.
         [Parameter(Mandatory = $True)]
         [string]$apitoken,
@@ -46,7 +49,7 @@
         "notify" = [string]$notify
     }
 
-    $uri = "https://api.hipchat.com/v2/room/$room/notification?auth_token=$apitoken"
+    $uri = "$uri/v2/room/$room/notification?auth_token=$apitoken"
     $Body = ConvertTo-Json $messageObj
     $Post = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
