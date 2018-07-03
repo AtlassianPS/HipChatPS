@@ -30,9 +30,8 @@
         #Set whether or not this message should trigger a notification for people in the room. (default: false)
         [switch]$notify,
 
-        #Required. Server name, default to 'api.hipchat.com'
-        [Parameter(Mandatory = $True)]
-        [string]$server = 'api.hipchat.com',
+        #HipChat API endpoint (default: https://api.hipchat.com)
+        [string]$uri = 'https://api.hipchat.com',
 
         #Required. This must be a HipChat API token created by a Room Admin for the room you are sending notifications to.
         [Parameter(Mandatory = $True)]
@@ -59,12 +58,7 @@
         "notify" = [string]$notify
     }
 
-    switch ($PSCmdlet.ParameterSetName)
-    {
-        "Room"{$uri = "https://$server/v2/room/$room/notification?auth_token=$apitoken"}
-        "User"{$uri = "https://$server/v2/user/$user/message?auth_token=$apitoken"}
-    }
-
+    $uri = "$uri/v2/room/$room/notification?auth_token=$apitoken"
     $Body = ConvertTo-Json $messageObj
     $Post = [System.Text.Encoding]::UTF8.GetBytes($Body)
 
