@@ -1,15 +1,20 @@
 ﻿function Send-HipChat {
 <#
 .SYNOPSIS
-    Sends messages to a Hipchat room.
+    Sends messages to a Hipchat room or user.
 .DESCRIPTION
-    Send-HipChat can be used within a script or at the console to send a message to a HipChat room.
+    Send-HipChat can be used within a script or at the console to send a message to a HipChat room or a private message to a user.
 .EXAMPLE
     Send-Hipchat -Message 'Hello' -Color 'Green' -Notify -ApiToken myapitoken -Room MyRoom -Retry 5 -RetrySec 10
 
     This sends a message of 'Hello' highlighted green in to a room named MyRoom. Users in the room will be notified
     in their clients that a new message has been recevied. If it cannot successfully send the message it will retry
     5 times, at 10 second intervals.
+.EXAMPLE
+    Send-Hipchat -Message 'Hello' -Server "myserver.hipchat.com" -ApiToken myapitoken -User email@example.com -Retry 5 -RetrySec 10
+
+    This sends a private message of 'Hello' to a user with an email address of email@example.com.
+
 #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -32,9 +37,13 @@
         [Parameter(Mandatory = $True)]
         [string]$apitoken,
 
-        #Required. The id or URL encoded name of the HipChat room you want to send the message to.
-        [Parameter(Mandatory = $True)]
+        #The id or URL encoded name of the HipChat room you want to send the message to.
+        [Parameter(Mandatory = $True, ParameterSetName = 'Room')]
         [string]$room,
+
+        #The id or URL encoded name of the HipChat room you want to send the message to.
+        [Parameter(Mandatory = $True, ParameterSetName = 'User')]
+        [string]$user,
 
         #The number of times to retry sending the message (default: 0)
         [int]$retry = 0,
