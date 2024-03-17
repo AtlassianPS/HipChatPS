@@ -37,11 +37,11 @@
         [Parameter(Mandatory = $True)]
         [string]$apitoken,
 
-        #The id or URL encoded name of the HipChat room you want to send the message to.
+        #The id or name of the HipChat room you want to send the message to. If not URL encoded, will be URL encoded for you.
         [Parameter(Mandatory = $True, ParameterSetName = 'Room')]
         [string]$room,
 
-        #The id or URL encoded name of the HipChat room you want to send the message to.
+        #The id or name of the HipChat room you want to send the message to. If not URL encoded, will be URL encoded for you.
         [Parameter(Mandatory = $True, ParameterSetName = 'User')]
         [string]$user,
 
@@ -56,6 +56,15 @@
         "message" = $message
         "color" = $color
         "notify" = [string]$notify
+    }
+
+    try {
+        $roomDecoded = [System.Web.HttpUtility]::UrlDecode($room)
+        $roomEncoded = [System.Web.HttpUtility]::UrlEncode($roomDecoded)
+        $room = $roomEncoded
+    }
+    catch {
+        Write-Warning "Could not automatically URL encode room name. Please ensure it is encoded. Error: $($_)"
     }
 
     $uri = "$uri/v2/room/$room/notification?auth_token=$apitoken"

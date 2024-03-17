@@ -30,6 +30,28 @@ Describe 'Send-HipChat' {
 
         {send-hipchat @params} | Should Throw
     }
+
+    It "should handle a URL encoded room" {
+
+        $params = @{
+            message = "Pester test message"
+            room = "Test%20Room"
+            apitoken = "c6cS2qXSv1zRyUUXpPsu3bebVF43wx8bvPQK5vg6"
+        }
+
+        Send-HipChat @params | Should Be $true
+    }
+
+    It "should handle a non-url encoded room name that needs encoding" {
+
+        $params = @{
+            message = "Pester test message"
+            room = "Test Room"
+            apitoken = "c6cS2qXSv1zRyUUXpPsu3bebVF43wx8bvPQK5vg6"
+        }
+
+        Send-HipChat @params | Should Be $true
+    }
 }
 
 Describe "Send-HipChat timeouts" {
@@ -48,7 +70,7 @@ Describe "Send-HipChat timeouts" {
         }
 
         send-hipchat @params | Should be $false
-        
+
         Assert-MockCalled Invoke-WebRequest -Exactly 4 -Scope It
     }
 }
