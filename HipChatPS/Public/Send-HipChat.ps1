@@ -58,8 +58,13 @@
         "notify" = [string]$notify
     }
 
-    $roomDecoded = [System.Web.HttpUtility]::UrlDecode($room)
-    $room = [System.Web.HttpUtility]::UrlEncode($roomDecoded)
+    try {
+        $roomDecoded = [System.Web.HttpUtility]::UrlDecode($room)
+        $room = [System.Web.HttpUtility]::UrlEncode($roomDecoded)
+    }
+    catch {
+        Write-Warning "Could not automatically URL encode room name. Please ensure it is encoded. Error: $($_)"
+    }
 
     $uri = "$uri/v2/room/$room/notification?auth_token=$apitoken"
     $Body = ConvertTo-Json $messageObj
