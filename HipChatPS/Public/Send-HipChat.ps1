@@ -60,7 +60,8 @@
 
     try {
         $roomDecoded = [System.Web.HttpUtility]::UrlDecode($room)
-        $room = [System.Web.HttpUtility]::UrlEncode($roomDecoded)
+        $roomEncoded = [System.Web.HttpUtility]::UrlEncode($roomDecoded)
+        $room = $roomEncoded
     }
     catch {
         Write-Warning "Could not automatically URL encode room name. Please ensure it is encoded. Error: $($_)"
