@@ -6,13 +6,17 @@ permalink: /module/HipchatPS/
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-> **This code is not yet fully implemented.** Any help (including bug reporting) is appreciated.
+## Archived
+
+AtlassianPS retired HipChatPS on 7 October 2026. This module is no longer maintained or supported.
+No further releases, bug fixes, or security updates are planned, and this repository no longer accepts issues or pull requests.
+
+The source, existing issues, and documentation remain available for historical reference.
+You can fork the repository to continue development independently.
+The usage instructions below describe the historical module and may not work with current services.
 
 A module for PowerShell with functions for interacting with the team chat tool "Hipchat" by Atlassian. The module utilises Hipchat API v2: https://www.hipchat.com/docs/apiv2.
 
-Join the conversation on [![SlackLogo][] AtlassianPS.Slack.com](https://atlassianps.org/slack)
-
-[SlackLogo]: https://atlassianps.org/assets/img/Slack_Mark_Web_28x28.png
 <!--more-->
 
 ---
@@ -48,9 +52,6 @@ Attempt to send a message to a room named "My Room" coloured green. Will retry 5
 
 * [Source Code]
 * [Latest Release]
-* [Submit an Issue]
-* [Contributing]
-* How you can help us: [List of Issues](https://github.com/AtlassianPS/JiraPS/issues?q=is%3Aissue+is%3Aopen+label%3Aup-for-grabs)
 
 ## Disclaimer
 
@@ -61,10 +62,8 @@ Hopefully this is obvious, but:
 <!-- reference-style links -->
   [Source Code]: https://github.com/AtlassianPS/HipchatPS
   [Latest Release]: https://github.com/AtlassianPS/HipchatPS/releases/latest
-  [Submit an Issue]: https://github.com/AtlassianPS/HipchatPS/issues/new
   [@markwragg]: https://github.com/markwragg
   [MIT license]: https://github.com/AtlassianPS/HipchatPS/blob/master/LICENSE
-  [Contributing]: http://atlassianps.org/docs/Contributing
 
 <!-- [//]: # (Sweet online markdown editor at http://dillinger.io) -->
 <!-- [//]: # ("GitHub Flavored Markdown" https://help.github.com/articles/github-flavored-markdown/) -->
